@@ -22,6 +22,7 @@ const getOneContact = async (req, res, next) => {
     next(error);
   }
 };
+
 const deleteContact = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -63,7 +64,7 @@ const updateContact = async (req, res, next) => {
   }
 };
 
-export  {
+export {
   getAllContacts,
   getOneContact,
   deleteContact,

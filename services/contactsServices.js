@@ -35,13 +35,39 @@ async function removeContact(id) {
   return removedContact;
 }
 
-async function addContact(name, email, phone) {
+async function addContact(data) {
   const contacts = await listContacts();
-  const newContact = { id: crypto.randomUUID(), name, email, phone };
+  const newContact = {
+    id: crypto.randomUUID(),
+    ...data
+  };
   contacts.push(newContact);
   await writeContacts(contacts);
 
   return newContact;
 }
 
-export default { listContacts, getContactById, removeContact, addContact };
+async function updateContact(id, newData) {
+  
+  const contacts = await listContacts();
+
+  const contactIndex = contacts.findIndex((contact) => contact.id === id);
+
+  if (contactIndex === -1) return null;
+
+  const updatedContact = { ...contacts[contactIndex], ...newData };
+
+  contacts[contactIndex] = updatedContact;
+
+  await writeContacts(contacts);
+
+  return updatedContact;
+}
+
+export default {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+  updateContact,
+};

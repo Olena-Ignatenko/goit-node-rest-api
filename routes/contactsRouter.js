@@ -22,11 +22,7 @@ contactsRouter.post("/", validateBody(createContactSchema), createContact);
 
 contactsRouter.put("/:id", validateBody(updateContactSchema), updateContact);
 
-// Додамо обробку помилок
-contactsRouter.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: "Internal Server Error" });
-});
+
 
 
 export default contactsRouter;
