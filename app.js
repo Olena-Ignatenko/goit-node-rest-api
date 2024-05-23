@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/api", contactsRouter);
+app.use("/api/contacts", contactsRouter);
 
 // Handle 404 Error
 app.use((_, res) => {

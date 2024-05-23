@@ -5,29 +5,58 @@ import {
   deleteContact,
   createContact,
   updateContact,
-  createContactSchema,
-  updateContactSchema
+  updateStatusContact,
 } from "../controllers/contactsControllers.js";
-
-import { validateBody } from "../helpers/validateBody.js"
-
-router.use("/contacts", contactRoutes);
+import Joi from "joi";
+import { validateBody } from "../helpers/validateBody.js";
 
 const contactsRouter = express.Router();
+const jsonParser = express.json();
 
-contactsRouter.get("/", contactsController.getAllContacts);
+const createContactSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  phone: Joi.string().required(),
+  favorite: Joi.boolean(),
+});
 
-contactsRouter.get("/:id", contactsController.getOneContact);
+const updateContactSchema = Joi.object({
+  name: Joi.string(),
+  email: Joi.string().email(),
+  phone: Joi.string(),
+  favorite: Joi.boolean(),
+});
 
-contactsRouter.delete("/:id", contactsController.deleteContact);
+const favoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
 
-contactsRouter.post("/", validateBody(createContactSchema), createContact);
+// router.use("/contacts", contactsRoutes);
 
-contactsRouter.put("/:id", validateBody(updateContactSchema), updateContact);
+contactsRouter.get("/", getAllContacts);
 
-contactsRouter.patch("/:id/favorite", validateId, validateBody(favoriteSchema),
-  contactsController.updateStatus
+contactsRouter.get("/:id", getOneContact);
+
+contactsRouter.delete("/:id", deleteContact);
+
+contactsRouter.post(
+  "/",
+  jsonParser,
+  validateBody(createContactSchema),
+  createContact
 );
 
+contactsRouter.put(
+  "/:id",
+  jsonParser,
+  validateBody(updateContactSchema),
+  updateContact
+);
+
+contactsRouter.patch(
+  "/:id/favorite",
+  validateBody(favoriteSchema),
+  updateStatusContact
+);
 
 export default contactsRouter;
