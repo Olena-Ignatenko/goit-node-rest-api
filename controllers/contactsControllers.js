@@ -14,6 +14,12 @@ async function getAllContacts(req, res, next) {
 async function getOneContact(req, res, next) {
   try {
     const { id } = req.params;
+
+    // Перевірка чи є `id` валідним ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid contact ID" });
+    }
+
     const contact = await Contact.findById(id);
     if (contact === null) {
       return res.status(404).json({ message: "Contact not found" });
@@ -38,13 +44,7 @@ async function createContact(req, res, next) {
     return next(HttpError(400, error.message));
   }
 
-  // const contact = {
-  //   name: req.body.name,
-  //   email: req.body.email,
-  //   phone: req.body.phone,
-  //   favorite: req.body.favorite,
-  // };
-
+ 
   try {
     const result = await Contact.create(req.body);
 
@@ -58,7 +58,12 @@ async function deleteContact(req, res, next) {
   try {
     const { id } = req.params;
 
-    const result = await Book.findByIdAndDelete(id);
+    // Перевірка чи є `id` валідним ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid contact ID" });
+    }
+
+    const result = await Contact.findByIdAndDelete(id);
 
     if (result === null) {
       return res.status(404).json({ message: "Contact not found" });
@@ -89,13 +94,12 @@ async function updateContact(req, res, next) {
   try {
     const { id } = req.params;
 
-    //   const contact = {
-    //   name: req.body.name,
-    //   email: req.body.email,
-    //   phone: req.body.phone,
-    //   favorite: req.body.favorite,
-    // };
+    // Перевірка чи є `id` валідним ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid contact ID" });
+    }
 
+    
     const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
 
     if (result === null) {
@@ -120,6 +124,12 @@ async function updateStatusContact(req, res, next) {
 
   try {
     const { id } = req.params;
+
+     // Перевірка чи є `id` валідним ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid contact ID" });
+    }
+
     const result = await Contact.findByIdAndUpdate(
       id,
       { favorite: req.body.favorite },
