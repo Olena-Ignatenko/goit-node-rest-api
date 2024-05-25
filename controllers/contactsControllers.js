@@ -1,6 +1,7 @@
 // import HttpError from "../helpers/HttpError.js";
 import Contact from "../models/contact.js";
 import Joi from "joi";
+import mongoose from "mongoose";
 
 async function getAllContacts(req, res, next) {
   try {
