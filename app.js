@@ -2,13 +2,17 @@ import express from "express";
 import "dotenv/config";
 import contactsRouter from "./routes/contactsRouter.js";
 import "./db.js";
+import authRouter from "./routes/authRouter.js";
+import authMiddleware from "./middlewares/authMiddleware.js";
 
 const app = express();
 
 
 app.use(express.json());
 
-app.use("/api/contacts", contactsRouter);
+app.use("/api/contacts", authMiddleware, contactsRouter);
+app.use("/api/auth", authRouter);
+// app.use("/contacts", authMiddleware, contactsRouter);
 
 // Handle 404 Error
 app.use((_, res) => {

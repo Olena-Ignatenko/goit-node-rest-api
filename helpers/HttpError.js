@@ -7,7 +7,7 @@ const messageList = {
 };
 
 const HttpError = (status, message = messageList[status]) => {
-  const error = new Error(message);
+  const error = new Error(JSON.stringify(message));
   error.status = status;
   return error;
 };
