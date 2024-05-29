@@ -16,6 +16,11 @@ const contactSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   {
     versionKey: false,
@@ -23,4 +28,6 @@ const contactSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Contact", contactSchema);
+const Contact = mongoose.model("Contact", contactSchema);
+
+export default Contact;

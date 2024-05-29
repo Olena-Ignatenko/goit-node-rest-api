@@ -9,6 +9,7 @@ import {
 } from "../controllers/contactsControllers.js";
 import Joi from "joi";
 import { validateBody } from "../helpers/validateBody.js";
+import authMiddleware from "../middlewares/authMiddleware.js";
 
 const contactsRouter = express.Router();
 const jsonParser = express.json();
@@ -32,6 +33,7 @@ const favoriteSchema = Joi.object({
 });
 
 // router.use("/contacts", contactsRoutes);
+contactsRouter.use(authMiddleware);
 
 contactsRouter.get("/", getAllContacts);
 

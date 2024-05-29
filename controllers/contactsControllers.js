@@ -2,10 +2,11 @@
 import Contact from "../models/contact.js";
 import Joi from "joi";
 import mongoose from "mongoose";
+import HttpError from "../helpers/HttpError.js";
 
 async function getAllContacts(req, res, next) {
   try {
-    const contacts = await Contact.find();
+    const contacts = await Contact.find({ owner: req.user.id });
     res.status(200).json(contacts);
   } catch (error) {
     next(error);
@@ -21,7 +22,7 @@ async function getOneContact(req, res, next) {
       return res.status(400).json({ message: "Invalid contact ID" });
     }
 
-    const contact = await Contact.findById(id);
+    const contact = await Contact.findById({ _id: id, owner: req.user.id });
     if (contact === null) {
       return res.status(404).json({ message: "Contact not found" });
     }
@@ -45,9 +46,12 @@ async function createContact(req, res, next) {
     return next(HttpError(400, error.message));
   }
 
- 
   try {
-    const result = await Contact.create(req.body);
+    const newContact = {
+      ...req.body,
+      owner: req.user.id,
+    };
+    const result = await Contact.create(newContact);
 
     res.status(201).send(result);
   } catch (error) {
@@ -64,7 +68,11 @@ async function deleteContact(req, res, next) {
       return res.status(400).json({ message: "Invalid contact ID" });
     }
 
-    const result = await Contact.findByIdAndDelete(id);
+    // const result = await Contact.findByIdAndDelete(id);
+    const result = await Contact.findOneAndDelete({
+      _id: id,
+      owner: req.user.id,
+    });
 
     if (result === null) {
       return res.status(404).json({ message: "Contact not found" });
@@ -75,7 +83,6 @@ async function deleteContact(req, res, next) {
     next(error);
   }
 }
-
 
 async function updateContact(req, res, next) {
   // Add Joi here
@@ -91,7 +98,6 @@ async function updateContact(req, res, next) {
     return next(HttpError(400, error.message));
   }
 
-
   try {
     const { id } = req.params;
 
@@ -100,7 +106,6 @@ async function updateContact(req, res, next) {
       return res.status(400).json({ message: "Invalid contact ID" });
     }
 
-    
     const result = await Contact.findByIdAndUpdate(id, req.body, { new: true });
 
     if (result === null) {
@@ -126,7 +131,7 @@ async function updateStatusContact(req, res, next) {
   try {
     const { id } = req.params;
 
-     // Перевірка чи є `id` валідним ObjectId
+    // Перевірка чи є `id` валідним ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid contact ID" });
     }
@@ -144,7 +149,6 @@ async function updateStatusContact(req, res, next) {
     next(error);
   }
 }
-
 
 export {
   getAllContacts,
