@@ -12,7 +12,6 @@ app.use(express.json());
 
 app.use("/api/contacts", authMiddleware, contactsRouter);
 app.use("/api/auth", authRouter);
-// app.use("/contacts", authMiddleware, contactsRouter);
 
 // Handle 404 Error
 app.use((_, res) => {
