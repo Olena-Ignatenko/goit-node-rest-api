@@ -2,7 +2,7 @@ import express from "express";
 import "dotenv/config";
 import contactsRouter from "./routes/contactsRouter.js";
 import "./db.js";
-import authRouter from "./routes/authRouter.js";
+import usersRouter from "./routes/authRouter.js";
 import authMiddleware from "./middlewares/authMiddleware.js";
 
 const app = express();
@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/contacts", authMiddleware, contactsRouter);
-app.use("/api/auth", authRouter);
+app.use("/api/users", usersRouter);
 
 // Handle 404 Error
 app.use((_, res) => {
@@ -23,7 +23,7 @@ app.use((error, req, res, next) => {
   console.error(error);
   res
     .status(error.status || 500)
-    .send(error.message || "Internal Server Error");
+    .json(error.message || "Internal Server Error");
 });
 
 

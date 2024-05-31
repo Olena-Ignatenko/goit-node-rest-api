@@ -1,4 +1,3 @@
-// import HttpError from "../helpers/HttpError.js";
 import Contact from "../models/contact.js";
 import Joi from "joi";
 import mongoose from "mongoose";
@@ -43,7 +42,7 @@ async function createContact(req, res, next) {
 
   const { error } = createContactSchema.validate(req.body);
   if (error) {
-    return next(HttpError(400, error.message));
+    return res.status(400).json(error.message);
   }
 
   try {
@@ -53,7 +52,7 @@ async function createContact(req, res, next) {
     };
     const result = await Contact.create(newContact);
 
-    res.status(201).send(result);
+    res.status(201).json(result);
   } catch (error) {
     next(error);
   }

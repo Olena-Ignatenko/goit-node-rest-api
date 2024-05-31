@@ -2,12 +2,26 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 
+
+// const registerSchema = Joi.object({
+//   email: Joi.string().email().required(),
+//   password: Joi.string().required(),
+// });
+
+// const loginSchema = Joi.object({
+//   email: Joi.string().email().required(),
+//   password: Joi.string().required(),
+// });
+
+
+
 async function register(req, res, next) {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user !== null) {
-return res.status(409).json({ message: "Email in use" });    }
+      return res.status(409).json({ message: "Email in use" });
+    }
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = await User.create({ email, password: passwordHash });
     res.status(201).json({
@@ -63,6 +77,17 @@ async function logout(req, res, next) {
   }
 }
 
-const AuthController = { register, login, logout };
+async function getCurrentUser(req, res, next) {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+    res.json({ email: user.email, subscription: user.subscription });
+  } catch (error) {
+    next(error);
+  }
+}
+const AuthController = { register, login, logout, getCurrentUser };
 
 export default AuthController;
