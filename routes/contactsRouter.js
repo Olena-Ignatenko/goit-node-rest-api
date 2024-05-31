@@ -32,7 +32,6 @@ const favoriteSchema = Joi.object({
   favorite: Joi.boolean().required(),
 });
 
-// router.use("/contacts", contactsRoutes);
 contactsRouter.use(authMiddleware);
 
 contactsRouter.get("/", getAllContacts);
