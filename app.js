@@ -23,7 +23,7 @@ app.use((error, req, res, next) => {
   console.error(error);
   res
     .status(error.status || 500)
-    .json({ message: error.message || "Internal Server Error" });
+    .json(error.message || "Internal Server Error" );
 });
 
 
