@@ -3,16 +3,6 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 
 
-// const registerSchema = Joi.object({
-//   email: Joi.string().email().required(),
-//   password: Joi.string().required(),
-// });
-
-// const loginSchema = Joi.object({
-//   email: Joi.string().email().required(),
-//   password: Joi.string().required(),
-// });
-
 
 
 async function register(req, res, next) {
