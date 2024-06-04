@@ -20,7 +20,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
-  },
+    avatarURL: {
+      type: String,
+      default: function () {
+        return gravatar.url(this.email, { s: "250", d: "identicon" }, true);
+      },
+    },
+    },
+  
   {
     versionKey: false,
     timestamps: true,
