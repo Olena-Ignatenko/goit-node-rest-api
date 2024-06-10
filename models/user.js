@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import gravatar from "gravatar";
 
 const userSchema = new mongoose.Schema(
   {
@@ -26,8 +27,16 @@ const userSchema = new mongoose.Schema(
         return gravatar.url(this.email, { s: "250", d: "identicon" }, true);
       },
     },
+    verify: {
+      type: Boolean,
+      default: false,
     },
-  
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
+    },
+  },
+
   {
     versionKey: false,
     timestamps: true,
