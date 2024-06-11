@@ -21,14 +21,14 @@ const message = {
   from: "goit_nodejs@meta.ua",
   subject: "Email Verification",
   html: "",
-  html: `<p>Click <a target="_blank" href="http://localhost:3000/users/verify/${verificationToken}">here</a> to verify your email.</p>`,
+  html: `<p>Click <a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">here</a> to verify your email.</p>`,
   text: `Click here to verify your email.`,
 };
 
 
 
 function sendMail({ to, from, subject, text }, verificationToken) {
-  const html = `<p>Click <a target="_blank" href="http://localhost:3000/users/verify/${verificationToken}">here</a> to verify your email.</p>`;
+  const html = `<p>Click <a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">here</a> to verify your email.</p>`;
 
   const message = {
     to,

@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use("/api/contacts", authMiddleware, contactsRouter);
 app.use("/api/users", usersRouter);
-app.use("/api/avatars", express.static(path.resolve("public/avatars")));
+app.use(express.static("public"));
 
 // Handle 404 Error
 app.use((_, res) => {
