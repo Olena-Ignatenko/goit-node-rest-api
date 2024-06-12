@@ -48,8 +48,11 @@ async function verifyEmail(req, res, next) {
     await User.findByIdAndUpdate(user._id, {
       verify: true,
       verificationToken: null,
+      
     });
+    
 
+    
     // Повертаємо відповідь про успішну верифікацію
     res.json({ message: "Verification successful!" });
   } catch (error) {
@@ -100,6 +103,7 @@ async function resendVerificationEmail(req, res, next) {
     // Оновлення токена верифікації у користувача, якщо потрібно
     if (!user.verificationToken) {
       await User.findByIdAndUpdate(user._id, { verificationToken });
+       
     }
 
     // Повертаємо відповідь про успішне відправлення листа

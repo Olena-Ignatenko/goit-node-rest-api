@@ -20,7 +20,7 @@ async function register(req, res, next) {
 
    await mail.sendMail({
      to: email,
-     from: "mark1234567@gmail.com",
+     from: "goit_nodejs@meta.ua",
      subject: "Verify your email",
      html: `To confirm your email please click on <a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">link</a>`,
      text: `To confirm your email please open the link http://localhost:3000/api/users/verify/${verificationToken}`,
@@ -33,7 +33,7 @@ async function register(req, res, next) {
       email,
       password: passwordHash,
       avatarURL,
-      verificationToken
+      verificationToken,
     });
     res.status(201).json({
       user: {
@@ -64,7 +64,7 @@ async function login(req, res, next) {
       return res.status(401).json({ message: "Email or password is wrong" });
     }
 
-    if (user.verified === false) {
+    if (user.verify === false) {
       return res.status(401).json({ message: "Email is not verified" });
     } 
 

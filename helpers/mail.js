@@ -17,7 +17,7 @@ const transport = nodemailer.createTransport({
 
 const verificationToken = nanoid();
 const message = {
-  to: ["mark1234567@gmail.com"],
+  to: "ignatenkoa2103@gmail.com",
   from: "goit_nodejs@meta.ua",
   subject: "Email Verification",
   html: "",
