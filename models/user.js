@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import gravatar from "gravatar";
+import { verifyTokenRequired } from "../helpers/validationToken.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema(
     },
     verificationToken: {
       type: String,
-      required: [true, "Verify token is required"],
+      required: [function() { return !this.verify }, 'Verify token is required'],
     },
   },
 
